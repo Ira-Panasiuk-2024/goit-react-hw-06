@@ -1,3 +1,4 @@
+import { useDispatch } from 'react-redux';
 import { HiUser } from 'react-icons/hi';
 import { BsFillTelephoneFill } from 'react-icons/bs';
 import { useState } from 'react';
@@ -5,6 +6,7 @@ import EditForm from '../EditForm/EditForm';
 import css from './Contact.module.css';
 
 function Contact({ id, name, number, onDelete, onEdit }) {
+  const dispatch = useDispatch();
   const [isEditing, setIsEditing] = useState(false);
 
   const handleEdit = () => {
@@ -12,12 +14,16 @@ function Contact({ id, name, number, onDelete, onEdit }) {
   };
 
   const handleSave = updatedContact => {
-    onEdit(updatedContact);
+    dispatch(onEdit(updatedContact));
     setIsEditing(false);
   };
 
   const handleCancel = () => {
     setIsEditing(false);
+  };
+
+  const handleDelete = () => {
+    dispatch(onDelete(id));
   };
 
   return (
@@ -46,7 +52,7 @@ function Contact({ id, name, number, onDelete, onEdit }) {
               Edit
             </button>
 
-            <button className={css.btn} type="button" onClick={onDelete}>
+            <button className={css.btn} type="button" onClick={handleDelete}>
               Delete
             </button>
           </div>
